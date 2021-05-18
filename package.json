@@ -1,8 +1,8 @@
 {
-  "name": "@fd/watcher",
-  "version": "1.0.1",
-  "description": "rAF-based watcher that triggers callback functions when needed",
-  "main": "dist/index.js",
+  "name": "@fucking.digital/watch-animation-frame",
+  "version": "1.0.0",
+  "description": "rAF-based watcher that triggers callback functions when provided condition met",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "NODE_ENV=production ./node_modules/babel-cli/bin/babel.js src/index.js --presets es2015 --out-file dist/index.js"
@@ -13,7 +13,7 @@
     "handler"
   ],
   "author": "Matthias Dunker",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "uuid": "^3.1.0"
   },
