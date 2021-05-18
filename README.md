@@ -23,7 +23,20 @@ window.__dimensionWatcher__ =
 window.__scrollWatcher__.subscribe({
   onchange(currentValue) {
     // gets triggered with every value change
-    console.log(`Scrolled ${currentValue}`);
+    console.log(`Scrolled to ${currentValue}`);
   },
 });
 ```
+
+The most simple subscription is one with the option `onchange`
+
+## List of subscription options
+
+| option          | type     | description                                                                                                                            |
+| --------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `onchange`      | function | Will be triggered with every tick if the value (calculated by the value function given at the watcher construction).                   |
+| `onappear`      | function | Will be executed if the condition is fullfilled (`true`) and wasn’t before (the last tick).                                            |
+| `ondisappear`   | function | Will be executed if the condition is not fullfilled (`false`), but was before (the last tick).                                         |
+| `onmatch`       | function | Will be executed every tick the condition is fullfilled (`true`).                                                                      |
+| `ondismatch`    | function | Will be executed every tick the condition is not fullfilled (`false`).                                                                 |
+| `onmatchchange` | function | Will be executed if condition was `true` and is `false` now or was `false` and is `true` now (on every `onappear` and `ondisappear`).. |

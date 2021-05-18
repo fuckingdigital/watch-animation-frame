@@ -25,7 +25,11 @@ function isEqualTo(value1, value2) {
     // break;
   }
 }
-
+/**
+ * Represents a watcher.
+ * @constructor
+ * @param {function} valueFunction - Triggered with every tick and return a value which will be parameter of all subscribed callback functions.
+ */
 export default function Watcher(valueFunction) {
   // the mighty watcher list.
   this.watches = {};
@@ -96,6 +100,10 @@ export default function Watcher(valueFunction) {
     "ondismatch",
     "onmatchchange",
   ];
+  /**
+   * Subscribe to a given watcher and receive a value with every tick if condition matches.
+   * @param {{matchCondition: function, onchange: function, onappear: function, ondisappear: function, onmatch: function, ondismatch: function, onmatchchange: function}} options - Triggered with every tick and return a value which will be parameter of all subscribed callback functions.
+   */
   this.subscribe = (options = {}) => {
     const watcher = {};
     const id = uuid();
