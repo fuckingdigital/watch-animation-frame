@@ -31,44 +31,45 @@ function isEqualTo(value1, value2) {
  * @param {function} valueFunction - Triggered with every tick and return a value which will be parameter of all subscribed callback functions.
  */
 export default function Watcher(valueFunction) {
-  // the mighty watcher list.
-  this.watches = {};
+  this.subscriptions = {};
   this.namespaces = {};
 
-  // setting for pausing the execution of the watches check
+  // flag for pausing the loop
   this.paused = false;
   // holding the current rAF id
   let rafId;
 
   let value = undefined;
-  const checkWatches = () => {
+  const checkWatcher = () => {
     const newValue = valueFunction();
     // if nothing changed we don’t have to do anything
     if (isEqualTo(value, newValue)) return;
     // else execute all functions
-    for (const key in this.watches) {
-      const watch = this.watches[key];
-      if (watch.onchange) watch.onchange(newValue);
-      if (watch.isMatch) {
-        const isAMatch = watch.isMatch(newValue);
+    for (const key in this.subscriptions) {
+      const subscription = this.subscriptions[key];
+      if (subscription.onchange) subscription.onchange(newValue);
+      if (subscription.isMatch) {
+        const isAMatch = subscription.isMatch(newValue);
         if (isAMatch) {
           // execute onmatch callback
-          if (watch.onmatch) watch.onmatch(newValue);
+          if (subscription.onmatch) subscription.onmatch(newValue);
           // execute onappear callback if wasn’t a match before
-          if (isAMatch != watch.matchState) {
-            if (watch.onappear) watch.onappear(newValue);
-            if (watch.onmatchchange) watch.onmatchchange(isAMatch, newValue);
+          if (isAMatch != subscription.matchState) {
+            if (subscription.onappear) subscription.onappear(newValue);
+            if (subscription.onmatchchange)
+              subscription.onmatchchange(isAMatch, newValue);
           }
         } else {
           // execute ondismatch callback
-          if (watch.ondismatch) watch.ondismatch(newValue);
+          if (subscription.ondismatch) subscription.ondismatch(newValue);
           // execute ondisappear callback if wasn’t a match before
-          if (isAMatch != watch.matchState) {
-            if (watch.ondisappear) watch.ondisappear(newValue);
-            if (watch.onmatchchange) watch.onmatchchange(isAMatch, newValue);
+          if (isAMatch != subscription.matchState) {
+            if (subscription.ondisappear) subscription.ondisappear(newValue);
+            if (subscription.onmatchchange)
+              subscription.onmatchchange(isAMatch, newValue);
           }
         }
-        watch.matchState = isAMatch;
+        subscription.matchState = isAMatch;
       }
     }
     value = newValue;
@@ -77,8 +78,8 @@ export default function Watcher(valueFunction) {
   const loop = () => {
     // requesting the next frame
     rafId = requestAnimationFrame(loop);
-    // but do maxybe something before
-    if (!this.paused) checkWatches();
+    // but do maybe something before
+    if (!this.paused) checkWatcher();
   };
 
   // subscribe
@@ -102,10 +103,11 @@ export default function Watcher(valueFunction) {
   ];
   /**
    * Subscribe to a given watcher and receive a value with every tick if condition matches.
-   * @param {{matchCondition: function, onchange: function, onappear: function, ondisappear: function, onmatch: function, ondismatch: function, onmatchchange: function}} options - Triggered with every tick and return a value which will be parameter of all subscribed callback functions.
+   * @param {{namespace: string, matchCondition: function, onchange: function, onappear: function, ondisappear: function, onmatch: function, ondismatch: function, onmatchchange: function}} options - Triggered with every tick and return a value which will be parameter of all subscribed callback functions.
+   * @returns {string} - Return the subscription id which can be used to unsubscribe later.
    */
   this.subscribe = (options = {}) => {
-    const watcher = {};
+    const subscription = {};
     const id = uuid();
 
     let matchEvent = false,
@@ -121,24 +123,24 @@ export default function Watcher(valueFunction) {
           continue;
         }
       }
-      watcher[events[i]] = options[events[i]];
+      subscription[events[i]] = options[events[i]];
     }
     // passed all tests
     if (matchEvent) {
-      watcher.isMatch = options.matchCondition;
-      watcher.matchState = undefined;
+      subscription.isMatch = options.matchCondition;
+      subscription.matchState = undefined;
     }
 
-    watcher.id = id;
+    subscription.id = id;
 
     if (options.namespace) {
-      watcher.namespace = options.namespace;
+      subscription.namespace = options.namespace;
       if (!this.namespaces.hasOwnProperty(options.namespace))
         this.namespaces[options.namespace] = [];
       this.namespaces[options.namespace].push(id);
     }
 
-    this.watches[id] = watcher;
+    this.subscriptions[id] = subscription;
 
     value = undefined; // make checkWatches believe the value changed
     if (!this.paused) checkWatches();
@@ -146,8 +148,8 @@ export default function Watcher(valueFunction) {
   };
 
   this.unsubscribe = (id) => {
-    if (this.watches.hasOwnProperty(id)) {
-      delete this.watches[id];
+    if (this.subscriptions.hasOwnProperty(id)) {
+      delete this.subscriptions[id];
     }
   };
 
@@ -166,7 +168,7 @@ export default function Watcher(valueFunction) {
   this.pause = () => {
     this.paused = true;
   };
-  this.playPause = () => {
+  this.togglePlayPause = () => {
     if (this.paused) this.play();
     else this.pause();
   };
