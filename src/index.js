@@ -1,5 +1,3 @@
-// TODO: rAF polyfill
-
 import uuid from "uuid/v1";
 
 function isEqualTo(value1, value2) {
@@ -82,25 +80,6 @@ export default function Watcher(valueFunction) {
     if (!this.paused) checkWatcher();
   };
 
-  // subscribe
-  // options {
-  //     namespace: string — (optional) can be helpful later to delete all watches within the same namespace,
-  //     matchCondition: function — (optional) validates a match
-  //     onchange: function — (optional) will be executed if the current value is not equal to old one
-  //     onappear: function - (optional) just works, if matchCondition is set
-  //     ondisappear: function - (optional) just works, if matchCondition is set
-  //     onmatch: function - (optional) just works, if matchCondition is set
-  //     ondismatch: function - (optional) just works, if matchCondition is set
-  //     onmatchchange: function - (optional) if appears or disappears
-  // }
-  const events = [
-    "onchange",
-    "onappear",
-    "ondisappear",
-    "onmatch",
-    "ondismatch",
-    "onmatchchange",
-  ];
   /**
    * Subscribe to a given watcher and receive a value with every tick if condition matches.
    * @param {{namespace: string, matchCondition: function, onchange: function, onappear: function, ondisappear: function, onmatch: function, ondismatch: function, onmatchchange: function}} options - Triggered with every tick and return a value which will be parameter of all subscribed callback functions.
