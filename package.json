@@ -12,7 +12,7 @@
     "mutation",
     "handler"
   ],
-  "author": "Matthias Dunker",
+  "author": "Matthias Dunker <matthias.dunker@fucking.digital> (https://fucking.digital)",
   "license": "MIT",
   "dependencies": {
     "uuid": "^3.1.0"
