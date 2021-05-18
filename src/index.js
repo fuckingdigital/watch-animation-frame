@@ -23,6 +23,16 @@ function isEqualTo(value1, value2) {
     // break;
   }
 }
+
+const events = [
+  "onchange",
+  "onappear",
+  "ondisappear",
+  "onmatch",
+  "ondismatch",
+  "onmatchchange",
+];
+
 /**
  * Represents a watcher.
  * @constructor
