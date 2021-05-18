@@ -1,7 +1,10 @@
 {
   "name": "@fucking.digital/watch-animation-frame",
   "version": "1.0.0",
-  "description": "rAF-based watcher that triggers callback functions when provided condition met",
+  "description": "rAF-based watcher that triggers callback functions when provided condition met","repository": {
+    "type": "git",
+    "url": "https://github.com/fuckingdigital/watch-animation-frame.git"
+  },
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
