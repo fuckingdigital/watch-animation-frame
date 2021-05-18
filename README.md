@@ -9,7 +9,7 @@ This is a watcher factory, which creates (conditional) event listeners and liste
 ```javascript
 // create a watcher listening for vertical scrolling/pageYOffset
 window.__scrollWatcher__ =
-  window.__scrollWatcher__ || new Watcher(() => w.pageYOffset);
+  window.__scrollWatcher__ || new Watcher(() => window.pageYOffset);
 
 // create a watcher listening for changes of horizontal document width
 window.__dimensionWatcher__ =
