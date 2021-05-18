@@ -1,5 +1,5 @@
 {
-  "name": "@fucking.digital/watch-animation-frame",
+  "name": "@fuckingdigital/watch-animation-frame",
   "version": "1.0.0",
   "description": "rAF-based watcher that triggers callback functions when provided condition met","repository": {
     "type": "git",
