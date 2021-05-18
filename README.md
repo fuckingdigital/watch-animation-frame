@@ -1,5 +1,7 @@
 # Watch Animation Frame
 
+![npm](https://img.shields.io/npm/v/@fuckingdigital/watch-animation-frame) ![license](https://img.shields.io/npm/l/@fuckingdigital/watch-animation-frame) ![npm](https://img.shields.io/npm/dt/@fuckingdigital/watch-animation-frame)
+
 This is a watcher factory, which creates (conditional) event listeners and listens by every tick of an animation frame and possibly fires the provided callbacks.
 
 ## Examples
