@@ -1,4 +1,4 @@
-import uuid from "uuid/v1";
+import { nanoid } from "nanoid";
 
 function isEqualTo(value1, value2) {
   let type = typeof value1;
@@ -97,7 +97,7 @@ export default function Watcher(valueFunction) {
    */
   this.subscribe = (options = {}) => {
     const subscription = {};
-    const id = uuid();
+    const id = nanoid();
 
     let matchEvent = false,
       isMatch = typeof options.matchCondition === "function";
